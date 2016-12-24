@@ -5,9 +5,9 @@
 [![License](https://img.shields.io/cocoapods/l/LoadingIndicatorLayer.svg?style=flat)](http://cocoapods.org/pods/LoadingIndicatorLayer)
 [![Platform](https://img.shields.io/cocoapods/p/LoadingIndicatorLayer.svg?style=flat)](http://cocoapods.org/pods/LoadingIndicatorLayer)
 
-## Example
+CALayer based Loading indicator
 
-To run the example project, clone the repo, and run `pod install` from the Example directory first.
+## Example
 
 ## Requirements
 
@@ -22,7 +22,7 @@ pod "LoadingIndicatorLayer"
 
 ## Author
 
-Sota Yokoe, kreuz45@kreuz45.com
+Sota Yokoe, info@kreuz45.com
 
 ## License
 
