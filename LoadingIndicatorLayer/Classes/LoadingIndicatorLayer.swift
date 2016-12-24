@@ -1,20 +1,25 @@
 import Cocoa
 
-class LoadingIndicatorLayer: CALayer {
-    fileprivate var circleLayers = [CAShapeLayer]()
-    
-    
-    required init?(coder aDecoder: NSCoder) {
-        fatalError()
+open class LoadingIndicatorLayer: CALayer {
+    public enum Status {
+        case idle
+        case hover
+        case loading
     }
     
+    fileprivate var circleLayers = [CAShapeLayer]()
+
+    required public init?(coder aDecoder: NSCoder) {
+        fatalError()
+    }
+
     override init(layer: Any) {
         super.init(layer: layer)
     }
-    
-    override init() {
+
+    public override init() {
         super.init()
-        
+
         for _ in 0 ..< 3 {
             let circleLayer = CAShapeLayer()
             circleLayer.lineWidth = 10
@@ -27,31 +32,25 @@ class LoadingIndicatorLayer: CALayer {
             addSublayer(circleLayer)
         }
     }
-    
+
     fileprivate var previousBounds: CGRect?
-    override func layoutSublayers() {
+    override open func layoutSublayers() {
         if let previousBounds = previousBounds, previousBounds.equalTo(bounds) {
             return
         }
-        
+
         updateStatus()
         previousBounds = bounds
     }
     
-    
-    enum Status {
-        case idle
-        case hover
-        case loading
-    }
-    var status: Status = .idle {
+    open var status: Status = .idle {
         didSet {
             if oldValue != status {
                 updateStatus()
             }
         }
     }
-    
+
     fileprivate func setupCircleLayersForNonLoadingStatus(_ opacity: Float) {
         for i in 0 ..< 3 {
             let circleLayer = circleLayers[i]
@@ -86,7 +85,7 @@ class LoadingIndicatorLayer: CALayer {
                 circleLayer.strokeEnd = 0.5
                 circleLayer.transform = CATransform3DIdentity
                 circleLayer.path = NSBezierPath(ovalIn: bounds.insetBy(dx: -CGFloat(i) * 10, dy: -CGFloat(i) * 10)).cgPath
-                
+
                 let rotatingAnimation = CAKeyframeAnimation(keyPath: "transform")
                 let maxAngle: CGFloat = i % 2 == 0 ? -6.28 : 6.28
                 rotatingAnimation.values = [
@@ -105,8 +104,33 @@ class LoadingIndicatorLayer: CALayer {
             break
         }
     }
-    
+
     fileprivate func transformWithAngle(_ angle: CGFloat) -> NSValue {
         return NSValue(caTransform3D: CATransform3DMakeRotation(angle, 0, 0, 1))
+    }
+}
+
+// From: https://gist.github.com/mayoff/d6d9738860ef2d0ac4055f0d12c21533
+fileprivate extension NSBezierPath {
+
+    fileprivate var cgPath: CGPath {
+        let path = CGMutablePath()
+        var points = [CGPoint](repeating: .zero, count: 3)
+
+        for i in 0 ..< self.elementCount {
+            let type = self.element(at: i, associatedPoints: &points)
+            switch type {
+            case .moveToBezierPathElement:
+                path.move(to: points[0])
+            case .lineToBezierPathElement:
+                path.addLine(to: points[0])
+            case .curveToBezierPathElement:
+                path.addCurve(to: points[2], control1: points[0], control2: points[1])
+            case .closePathBezierPathElement:
+                path.closeSubpath()
+            }
+        }
+
+        return path
     }
 }
