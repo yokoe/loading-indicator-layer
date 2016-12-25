@@ -1,6 +1,10 @@
 import Cocoa
 
 open class LoadingIndicatorLayer: CALayer {
+    public var indicatorOpacity: Float = 0.9
+    private static let ArcLength: CGFloat = 0.5
+    private static let IdleToLoadingAnimationDuration: TimeInterval = 0.2
+    
     public enum Status {
         case idle
         case hover
@@ -38,6 +42,12 @@ open class LoadingIndicatorLayer: CALayer {
         if let previousBounds = previousBounds, previousBounds.equalTo(bounds) {
             return
         }
+        
+        // Update frames of layers
+        for circleLayer in circleLayers {
+            circleLayer.transform = CATransform3DIdentity
+            circleLayer.frame = bounds
+        }
 
         updateStatus()
         previousBounds = bounds
@@ -46,7 +56,7 @@ open class LoadingIndicatorLayer: CALayer {
     open var status: Status = .idle {
         didSet {
             if oldValue != status {
-                updateStatus()
+                statusTransition(from: oldValue, to: status)
             }
         }
     }
@@ -55,13 +65,12 @@ open class LoadingIndicatorLayer: CALayer {
         for i in 0 ..< 3 {
             let circleLayer = circleLayers[i]
             circleLayer.opacity = opacity
-            circleLayer.transform = CATransform3DIdentity
-            circleLayer.frame = bounds
             circleLayer.path = NSBezierPath(ovalIn: bounds).cgPath
             circleLayer.transform = CATransform3DMakeRotation(CGFloat(i) / 3 * CGFloat(M_PI) * 2, 0, 0, 1)
             circleLayer.removeAnimation(forKey: "rotatingAnimation")
         }
     }
+    
     fileprivate func updateStatus() {
         switch status {
         case .idle:
@@ -80,12 +89,10 @@ open class LoadingIndicatorLayer: CALayer {
             break
         case .loading:
             for (i, circleLayer) in circleLayers.enumerated() {
-                circleLayer.opacity = 0.9
+                circleLayer.opacity = indicatorOpacity
                 circleLayer.strokeStart = 0
-                circleLayer.strokeEnd = 0.5
-                circleLayer.transform = CATransform3DIdentity
-                circleLayer.frame = bounds
-                circleLayer.path = NSBezierPath(ovalIn: bounds.insetBy(dx: -CGFloat(i) * 10, dy: -CGFloat(i) * 10)).cgPath
+                circleLayer.strokeEnd = LoadingIndicatorLayer.ArcLength
+                circleLayer.path = arcPath(for: i)
 
                 let rotatingAnimation = CAKeyframeAnimation(keyPath: "transform")
                 let maxAngle: CGFloat = i % 2 == 0 ? -6.28 : 6.28
@@ -108,6 +115,61 @@ open class LoadingIndicatorLayer: CALayer {
 
     fileprivate func transformWithAngle(_ angle: CGFloat) -> NSValue {
         return NSValue(caTransform3D: CATransform3DMakeRotation(angle, 0, 0, 1))
+    }
+    
+    private func arcPath(for index: Int) -> CGPath {
+        return NSBezierPath(ovalIn: bounds.insetBy(dx: -CGFloat(index) * 10, dy: -CGFloat(index) * 10)).cgPath
+    }
+    
+    // MARK: - Transition animations
+    private func statusTransition(from oldStatus: Status, to newStatus: Status) {
+        switch (oldStatus, newStatus) {
+        case (.idle, .loading):
+            idleToLoading()
+        default:
+            updateStatus()
+        }
+    }
+    
+    private func idleToLoading() {
+        for (i, layer) in circleLayers.enumerated() {
+            layer.path = arcPath(for: i)
+            
+            let strokeEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
+            strokeEndAnimation.fromValue = 0
+            strokeEndAnimation.toValue = LoadingIndicatorLayer.ArcLength
+            
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+            opacityAnimation.fromValue = 0
+            opacityAnimation.toValue = indicatorOpacity
+            
+            let transformAnimation = CABasicAnimation(keyPath: "transform")
+            transformAnimation.fromValue = NSValue(caTransform3D: CATransform3DMakeScale(0.5, 0.5, 1))
+            transformAnimation.toValue = transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2)
+            
+            let animation = CAAnimationGroup()
+            animation.animations = [opacityAnimation, strokeEndAnimation, transformAnimation]
+            
+            animation.duration = LoadingIndicatorLayer.IdleToLoadingAnimationDuration
+            animation.isRemovedOnCompletion = false
+            animation.fillMode = kCAFillModeForwards
+            if i == 0 {
+                animation.delegate = self
+            }
+            layer.removeAllAnimations()
+            layer.add(animation, forKey: "idleToLoadingAnimation")
+        }
+    }
+}
+
+extension LoadingIndicatorLayer: CAAnimationDelegate {
+    public func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
+        if anim == circleLayers.first?.animation(forKey: "idleToLoadingAnimation") {
+            for layer in circleLayers {
+                layer.removeAllAnimations()
+            }
+            updateStatus()
+        }
     }
 }
 
