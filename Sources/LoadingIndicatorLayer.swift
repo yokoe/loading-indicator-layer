@@ -4,6 +4,7 @@ open class LoadingIndicatorLayer: CALayer {
     public var indicatorOpacity: Float = 0.9
     private static let ArcLength: CGFloat = 0.5
     private static let IdleToLoadingAnimationDuration: TimeInterval = 0.3
+    private static let LoadingToIdleAnimationDuration: TimeInterval = 0.3
     
     public enum Status {
         case idle
@@ -126,6 +127,8 @@ open class LoadingIndicatorLayer: CALayer {
         switch (oldStatus, newStatus) {
         case (.idle, .loading):
             idleToLoading()
+        case (.loading, .idle):
+            loadingToIdle()
         default:
             updateStatus()
         }
@@ -169,6 +172,47 @@ open class LoadingIndicatorLayer: CALayer {
             }
             layer.removeAllAnimations()
             layer.add(animation, forKey: "idleToLoadingAnimation")
+        }
+    }
+    
+    private func loadingToIdle() {
+        for (i, layer) in circleLayers.enumerated() {
+            layer.path = arcPath(for: i)
+            
+            let strokeAnimation: CABasicAnimation
+            if i % 2 == 0 {
+                strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
+                strokeAnimation.fromValue = LoadingIndicatorLayer.ArcLength
+                strokeAnimation.toValue = 0
+                layer.strokeStart = 0
+            } else {
+                strokeAnimation = CABasicAnimation(keyPath: "strokeStart")
+                strokeAnimation.fromValue = LoadingIndicatorLayer.ArcLength
+                strokeAnimation.toValue = 1
+                layer.strokeEnd = 1
+            }
+            
+            
+            let opacityAnimation = CABasicAnimation(keyPath: "opacity")
+            opacityAnimation.fromValue = indicatorOpacity
+            opacityAnimation.toValue = 0
+            
+            let transformAnimation = CABasicAnimation(keyPath: "transform")
+            transformAnimation.toValue = NSValue(caTransform3D: CATransform3DRotate(CATransform3DMakeScale(1.25, 1.25, 1), CGFloat(M_PI) * -0.25, 0, 0, 1))
+            transformAnimation.fromValue = layer.presentation()!.transform
+            
+            let animation = CAAnimationGroup()
+            animation.animations = [opacityAnimation, strokeAnimation, transformAnimation]
+            
+            animation.duration = LoadingIndicatorLayer.LoadingToIdleAnimationDuration
+            animation.isRemovedOnCompletion = false
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            animation.fillMode = kCAFillModeForwards
+            if i == 0 {
+                animation.delegate = self
+            }
+            layer.removeAllAnimations()
+            layer.add(animation, forKey: "LoadingToIdleAnimation")
         }
     }
 }
