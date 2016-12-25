@@ -3,7 +3,7 @@ import Cocoa
 open class LoadingIndicatorLayer: CALayer {
     public var indicatorOpacity: Float = 0.9
     private static let ArcLength: CGFloat = 0.5
-    private static let IdleToLoadingAnimationDuration: TimeInterval = 0.2
+    private static let IdleToLoadingAnimationDuration: TimeInterval = 0.3
     
     public enum Status {
         case idle
@@ -135,9 +135,19 @@ open class LoadingIndicatorLayer: CALayer {
         for (i, layer) in circleLayers.enumerated() {
             layer.path = arcPath(for: i)
             
-            let strokeEndAnimation = CABasicAnimation(keyPath: "strokeEnd")
-            strokeEndAnimation.fromValue = 0
-            strokeEndAnimation.toValue = LoadingIndicatorLayer.ArcLength
+            let strokeAnimation: CABasicAnimation
+            if i % 2 == 1 {
+                strokeAnimation = CABasicAnimation(keyPath: "strokeEnd")
+                strokeAnimation.fromValue = 0
+                strokeAnimation.toValue = LoadingIndicatorLayer.ArcLength
+                layer.strokeStart = 0
+            } else {
+                strokeAnimation = CABasicAnimation(keyPath: "strokeStart")
+                strokeAnimation.fromValue = LoadingIndicatorLayer.ArcLength
+                strokeAnimation.toValue = 0
+                layer.strokeEnd = LoadingIndicatorLayer.ArcLength
+            }
+            
             
             let opacityAnimation = CABasicAnimation(keyPath: "opacity")
             opacityAnimation.fromValue = 0
@@ -148,10 +158,11 @@ open class LoadingIndicatorLayer: CALayer {
             transformAnimation.toValue = transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2)
             
             let animation = CAAnimationGroup()
-            animation.animations = [opacityAnimation, strokeEndAnimation, transformAnimation]
+            animation.animations = [opacityAnimation, strokeAnimation, transformAnimation]
             
             animation.duration = LoadingIndicatorLayer.IdleToLoadingAnimationDuration
             animation.isRemovedOnCompletion = false
+            animation.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
             animation.fillMode = kCAFillModeForwards
             if i == 0 {
                 animation.delegate = self
