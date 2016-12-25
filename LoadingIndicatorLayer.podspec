@@ -30,7 +30,7 @@ A lightweight loading indicator with animations using CALayer.
 
   s.osx.deployment_target = '10.9'
 
-  s.source_files = 'LoadingIndicatorLayer/Classes/**/*'
+  s.source_files = 'Sources/**/*.swift'
 
   # s.resource_bundles = {
   #   'LoadingIndicatorLayer' => ['LoadingIndicatorLayer/Assets/*.png']
