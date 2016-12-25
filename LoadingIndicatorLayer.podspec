@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LoadingIndicatorLayer'
-  s.version          = '0.0.1'
+  s.version          = '0.0.2'
   s.summary          = 'A CALayer based loading indicator.'
 
 # This description is used to generate tags and improve search results.
@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
   s.description      = <<-DESC
-A lightweight loading indicator using CALayer.
+A lightweight loading indicator with animations using CALayer.
                        DESC
 
   s.homepage         = 'https://github.com/yokoe/loading-indicator-layer'

@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		190B71D91E0F7F1200DDC508 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 190B71D81E0F7F1200DDC508 /* README.md */; };
+		190B71DB1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 190B71DA1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec */; };
 		19C577A21E0F5D1F0041F9A6 /* LoadingIndicatorLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 19C577A11E0F5D1F0041F9A6 /* LoadingIndicatorLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19C577A41E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C577A31E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift */; };
 		19C577C71E0F5E730041F9A6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C577C61E0F5E730041F9A6 /* AppDelegate.swift */; };
@@ -42,6 +44,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		190B71D81E0F7F1200DDC508 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		190B71DA1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LoadingIndicatorLayer.podspec; sourceTree = "<group>"; };
 		19C577951E0F5BA60041F9A6 /* LoadingIndicatorLayer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoadingIndicatorLayer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		19C5779F1E0F5CE90041F9A6 /* Info-macOS.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-macOS.plist"; sourceTree = "<group>"; };
 		19C577A11E0F5D1F0041F9A6 /* LoadingIndicatorLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadingIndicatorLayer.h; sourceTree = "<group>"; };
@@ -73,9 +77,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		190B71D71E0F7F0A00DDC508 /* Meta */ = {
+			isa = PBXGroup;
+			children = (
+				190B71DA1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec */,
+				190B71D81E0F7F1200DDC508 /* README.md */,
+			);
+			name = Meta;
+			sourceTree = "<group>";
+		};
 		19C577891E0F5B710041F9A6 = {
 			isa = PBXGroup;
 			children = (
+				190B71D71E0F7F0A00DDC508 /* Meta */,
 				19C5779E1E0F5CE90041F9A6 /* Sources */,
 				19C577971E0F5BA60041F9A6 /* LoadingIndicatorLayer macOS */,
 				19C577C51E0F5E730041F9A6 /* LoadingIndicatorLayer macOS Example */,
@@ -218,6 +232,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190B71DB1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -237,6 +252,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				190B71D91E0F7F1200DDC508 /* README.md in Sources */,
 				19C577A41E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -544,6 +560,7 @@
 				19C577D21E0F5E730041F9A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
