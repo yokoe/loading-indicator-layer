@@ -84,6 +84,7 @@ open class LoadingIndicatorLayer: CALayer {
                 circleLayer.strokeStart = 0
                 circleLayer.strokeEnd = 0.5
                 circleLayer.transform = CATransform3DIdentity
+                circleLayer.frame = bounds
                 circleLayer.path = NSBezierPath(ovalIn: bounds.insetBy(dx: -CGFloat(i) * 10, dy: -CGFloat(i) * 10)).cgPath
 
                 let rotatingAnimation = CAKeyframeAnimation(keyPath: "transform")
