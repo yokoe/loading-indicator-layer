@@ -67,7 +67,7 @@ open class LoadingIndicatorLayer: CALayer {
             let circleLayer = circleLayers[i]
             circleLayer.opacity = opacity
             circleLayer.path = NSBezierPath(ovalIn: bounds).cgPath
-            circleLayer.transform = CATransform3DMakeRotation(CGFloat(i) / 3 * CGFloat(M_PI) * 2, 0, 0, 1)
+            circleLayer.transform = CATransform3DMakeRotation(CGFloat(i) / 3 * CGFloat.pi * 2, 0, 0, 1)
             circleLayer.removeAnimation(forKey: "rotatingAnimation")
         }
     }
@@ -98,9 +98,9 @@ open class LoadingIndicatorLayer: CALayer {
                 let rotatingAnimation = CAKeyframeAnimation(keyPath: "transform")
                 let maxAngle: CGFloat = i % 2 == 0 ? -6.28 : 6.28
                 rotatingAnimation.values = [
-                    transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2),
-                    transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2 + maxAngle * 0.5),
-                    transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2 + maxAngle)
+                    transformWithAngle(CGFloat(i) / 3 * CGFloat.pi * 2),
+                    transformWithAngle(CGFloat(i) / 3 * CGFloat.pi * 2 + maxAngle * 0.5),
+                    transformWithAngle(CGFloat(i) / 3 * CGFloat.pi * 2 + maxAngle)
                 ]
                 rotatingAnimation.keyTimes = [0, 0.5, 1]
                 rotatingAnimation.duration = 3
@@ -158,7 +158,7 @@ open class LoadingIndicatorLayer: CALayer {
             
             let transformAnimation = CABasicAnimation(keyPath: "transform")
             transformAnimation.fromValue = NSValue(caTransform3D: CATransform3DMakeScale(0.5, 0.5, 1))
-            transformAnimation.toValue = transformWithAngle(CGFloat(i) / 3 * CGFloat(M_PI) * 2)
+            transformAnimation.toValue = transformWithAngle(CGFloat(i) / 3 * CGFloat.pi * 2)
             
             let animation = CAAnimationGroup()
             animation.animations = [opacityAnimation, strokeAnimation, transformAnimation]
@@ -198,7 +198,7 @@ open class LoadingIndicatorLayer: CALayer {
             opacityAnimation.toValue = 0
             
             let transformAnimation = CABasicAnimation(keyPath: "transform")
-            transformAnimation.toValue = NSValue(caTransform3D: CATransform3DRotate(CATransform3DMakeScale(1.25, 1.25, 1), CGFloat(M_PI) * -0.25, 0, 0, 1))
+            transformAnimation.toValue = NSValue(caTransform3D: CATransform3DRotate(CATransform3DMakeScale(1.25, 1.25, 1), CGFloat.pi * -0.25, 0, 0, 1))
             transformAnimation.fromValue = layer.presentation()!.transform
             
             let animation = CAAnimationGroup()
