@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		190B71D91E0F7F1200DDC508 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 190B71D81E0F7F1200DDC508 /* README.md */; };
 		190B71DB1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec in Resources */ = {isa = PBXBuildFile; fileRef = 190B71DA1E0F7F7400DDC508 /* LoadingIndicatorLayer.podspec */; };
 		19C577A21E0F5D1F0041F9A6 /* LoadingIndicatorLayer.h in Headers */ = {isa = PBXBuildFile; fileRef = 19C577A11E0F5D1F0041F9A6 /* LoadingIndicatorLayer.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		19C577A41E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19C577A31E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift */; };
@@ -251,7 +250,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				190B71D91E0F7F1200DDC508 /* README.md in Sources */,
 				19C577A41E0F5D6E0041F9A6 /* LoadingIndicatorLayer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
