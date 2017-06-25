@@ -15,6 +15,8 @@ theView.layer?.addSublayer(loadingIndicatorLayer)
 
 loadingIndicatorLayer.frame = CGRect(x: layer.bounds.midX - 40, y: layer.bounds.midY - 40, width: 80, height: 80)
 
+loadingIndicatorLayer.color = NSColor.red
+
 @IBAction func onStatusIdle(_ sender: Any) {
     loadingIndicatorLayer.status = .idle
 }

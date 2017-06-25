@@ -14,6 +14,7 @@ class ViewController: NSViewController {
         theView.layer?.backgroundColor = NSColor.darkGray.cgColor
         
         loadingIndicatorLayer = LoadingIndicatorLayer()
+        loadingIndicatorLayer.color = NSColor.yellow
         theView.layer?.addSublayer(loadingIndicatorLayer)
     }
     

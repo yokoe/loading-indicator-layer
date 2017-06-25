@@ -13,6 +13,14 @@ open class LoadingIndicatorLayer: CALayer {
     }
     
     fileprivate var circleLayers = [CAShapeLayer]()
+    
+    public var color: NSColor = NSColor.white {
+        didSet {
+            for circleLayer in circleLayers {
+                circleLayer.strokeColor = color.cgColor
+            }
+        }
+    }
 
     required public init?(coder aDecoder: NSCoder) {
         fatalError()
