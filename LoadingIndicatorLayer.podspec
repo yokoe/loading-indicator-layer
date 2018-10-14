@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'LoadingIndicatorLayer'
-  s.version          = '0.0.4'
+  s.version          = '0.0.5'
   s.summary          = 'A CALayer based loading indicator.'
 
 # This description is used to generate tags and improve search results.
@@ -39,7 +39,5 @@ A lightweight loading indicator with animations using CALayer.
   # s.public_header_files = 'Pod/Classes/**/*.h'
   # s.frameworks = 'UIKit', 'MapKit'
   # s.dependency 'AFNetworking', '~> 2.3'
-  s.xcconfig = {
-    'SWIFT_VERSION' => '3'
-  }
+  s.swift_version = '4.2'
 end
