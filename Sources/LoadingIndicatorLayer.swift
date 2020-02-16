@@ -239,7 +239,7 @@ extension LoadingIndicatorLayer: CAAnimationDelegate {
 // From: https://gist.github.com/mayoff/d6d9738860ef2d0ac4055f0d12c21533
 fileprivate extension NSBezierPath {
 
-    fileprivate var cgPath: CGPath {
+    var cgPath: CGPath {
         let path = CGMutablePath()
         var points = [CGPoint](repeating: .zero, count: 3)
 
